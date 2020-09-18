@@ -17,7 +17,7 @@ app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, '/public')));
 
 // Set the port of our application, process.env.PORT lets the port be set by Heroku
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 3001;
 
 
 //Routes
@@ -38,8 +38,9 @@ app.get("/stats", (req, res) => {
 
 
 app.get("/api/workouts", (req, res) => {
-    db.Workout.find({}).sort({ day: -1 }).limit(1)
+    db.Workout.find().sort({ day: -1 })
         .then(dbWorkout => {
+            //console.log('dbWorkout', dbWorkout);
             res.json(dbWorkout);
         })
         .catch(err => {
@@ -56,8 +57,6 @@ app.get("/api/workouts/range", (req, res) => {
             res.json(err);
         });
 });
-
-
 
 //PUT REQUESTS
 
@@ -85,7 +84,6 @@ app.put("/api/workouts/:id", (req, res) => {
         });
 
 });
-
 
 //POST REQUESTS
 
